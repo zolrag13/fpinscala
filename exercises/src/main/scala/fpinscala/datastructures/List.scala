@@ -164,6 +164,7 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
 
+    @tailrec
     def go(sup1: List[A], sub1: List[A], matches: List[A]): List[A] = {
       (sup1, sub1) match {
         case (Nil, _) | (_, Nil) => matches
@@ -172,9 +173,10 @@ object List { // `List` companion object. Contains functions for creating and wo
       }
     }
 
+    @tailrec
     def goSup(sup1: List[A], sub1: List[A], matches: List[A]): Boolean = {
       (sup1, sub1) match {
-        case (Nil, _) | (_, Nil) => false
+        case (Nil, _) | (_, Nil) => sub == Nil
         case (Cons(h1, t1), Cons(h2, t2)) if h1 == h2 && go(t1, t2, List(h2)) == sub => true
         case (Cons(_, t1), _) => goSup(t1, sub, Nil)
       }

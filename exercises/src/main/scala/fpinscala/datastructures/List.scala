@@ -95,8 +95,6 @@ object List { // `List` companion object. Contains functions for creating and wo
       case Cons(h, t) => f(h, foldRight(t, z)(f))
     }
 
-  def map[A,B](l: List[A])(f: A => B): List[B] =
-    foldLeft(l, Nil:List[B])((t, h) => Cons(f(h), t))
 
   def append[A](a1: List[A], a2: List[A]): List[A] =
     a1 match {
@@ -136,6 +134,9 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
     foldRight(as, Nil:List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
+  def map[A,B](l: List[A])(f: A => B): List[B] =
+    foldLeft(l, Nil:List[B])((t, h) => Cons(f(h), t))
 
   def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] =
     concat(map(l)(f))
